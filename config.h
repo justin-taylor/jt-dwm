@@ -20,7 +20,7 @@ static const Bool topbar            = True;     /* False means bottom bar */
 static const Bool viewontag         = True;     /* False means bottom bar */
 
 /* tagging */
-static const char *tags[] = { "Term", "Web", "3", "4", "5", "6", "7", "8", "Skype" };
+static const char *tags[] = { "Term", "Web", "3", "4", "5", "6", "7", "Skype" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -28,10 +28,12 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Skype",  NULL,       NULL,       1 << 8,       True,       -1 },
+	{ "Skype",  NULL,       NULL,       1 << 7,       True,       -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 1,       False,       -1 },
 	{ "Chromium",  NULL,       NULL,       1 << 1,       False,       -1 },
 };
+
+#include "cycle.c"
 
 /* layout(s) */
 static const float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
@@ -109,20 +111,23 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_h,      cycle,          {.i = -1} },
+	{ MODKEY|ShiftMask,             XK_l,      cycle,          {.i = +1} },
+
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
+	TAGKEYS(                        XK_q,                      3)
+	TAGKEYS(                        XK_w,                      4)
+	TAGKEYS(                        XK_e,                      5)
+	TAGKEYS(                        XK_a,                      6)
+	TAGKEYS(                        XK_s,                      7)
+	TAGKEYS(                        XK_d,                      8)
 	{ MODKEY|ShiftMask,    	        XK_r,      quit,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = destroysession} },
 };
 
-/* button definitions */
+/* button definitions *k
 /* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
