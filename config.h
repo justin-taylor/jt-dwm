@@ -20,7 +20,7 @@ static const Bool topbar            = True;     /* False means bottom bar */
 static const Bool viewontag         = True;     /* False means bottom bar */
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "Term", "Web", "3", "4", "5", "6", "7", "8", "Skype" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -29,6 +29,8 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Skype",  NULL,       NULL,       1 << 8,       True,       -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 1,       False,       -1 },
+	{ "Chromium",  NULL,       NULL,       1 << 1,       False,       -1 },
 };
 
 /* layout(s) */
@@ -66,17 +68,21 @@ static const char *mutevolcmd[]         = {"amixer", "-q", "set", "Master", "tog
 static const char *mpdnext[]         	= {"mpc", "next", NULL};
 static const char *mpdprev[]         	= {"mpc", "prev", NULL};
 static const char *mpdtoggle[]         	= {"mpc", "toggle", NULL};
-
+static const char *destroysession[]     = {"killall", "/bin/bash", NULL};
+static const char *keyboardlightup[] 	= {"sudo", "kbd_backlight", "up", NULL};
+static const char *keyboardlightdown[] 	= {"sudo", "kbd_backlight", "down", NULL};
 
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{0, 				XF86XK_AudioMute, spawn, {.v = mutevolcmd } },
-	{0, 				XF86XK_AudioRaiseVolume, spawn, {.v = raisevolcmd } },
-	{0, 				XF86XK_AudioLowerVolume, spawn, {.v = lowervolcmd } },
-	{0, 				XF86XK_AudioPlay, spawn, {.v = mpdtoggle } },
-	{0, 				XF86XK_AudioNext, spawn, {.v = mpdnext } },
-	{0, 				XF86XK_AudioPrev, spawn, {.v = mpdprev } },
+	{0, 				XF86XK_AudioMute, 		spawn, {.v = mutevolcmd } },
+	{0, 				XF86XK_AudioRaiseVolume, 	spawn, {.v = raisevolcmd } },
+	{0, 				XF86XK_AudioLowerVolume, 	spawn, {.v = lowervolcmd } },
+	{0, 				XF86XK_AudioPlay, 		spawn, {.v = mpdtoggle } },
+	{0, 				XF86XK_AudioNext, 		spawn, {.v = mpdnext } },
+	{0, 				XF86XK_AudioPrev, 		spawn, {.v = mpdprev } },
+	{0, 				XF86XK_KbdBrightnessUp, 	spawn, {.v = keyboardlightup } },
+	{0, 				XF86XK_KbdBrightnessDown, 	spawn, {.v = keyboardlightdown } },
 
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
@@ -112,7 +118,8 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,    	        XK_r,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = destroysession} },
 };
 
 /* button definitions */
@@ -131,4 +138,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
