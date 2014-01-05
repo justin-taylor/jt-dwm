@@ -14,10 +14,10 @@ static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*
 static const char normbordercolor[] = "#333333";
 static const char normbgcolor[]     = "#051121";
 static const char normfgcolor[]     = "#FFFFFF";
-static const char selbordercolor[]  = "#1793D1";
+static const char selbordercolor[]  = "#00FF00";
 static const char selbgcolor[]      = "#1793D1";
 static const char selfgcolor[]      = "#FFFFFF";
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const Bool showbar           = False;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
@@ -32,10 +32,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Skype",        NULL,       NULL,       1 << 5,       True,       -1 },
+	{ "Skype",        NULL,       NULL,       1 << 2,       False,      -1 },
 	{ "Firefox",      NULL,       NULL,       1 << 1,       False,      -1 },
 	{ "Chromium",     NULL,       NULL,       1 << 1,       False,      -1 },
-	{ "Gimp",         NULL,       NULL,       1 << 3,       True,       -1 },
+	{ "Gimp",         NULL,       NULL,       1 << 2,       True,       -1 },
 };
 
 
