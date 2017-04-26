@@ -6,6 +6,7 @@
 
 #include <X11/XF86keysym.h>
 #include "bstack.c"
+#include "grid.c"
 #include "bstackhoriz.c"
 
 /* appearance */
@@ -24,7 +25,7 @@ static const Bool topbar            = True;     /* False means bottom bar */
 static const Bool viewontag         = True;     /* False means bottom bar */
 
 /* tagging */
-static const char *tags[] = { "Term", "Web", "Skype" };
+static const char *tags[] = { "Term", "Web", "Chat", "Mail" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -32,10 +33,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Skype",        NULL,       NULL,       1 << 2,       False,      -1 },
-	{ "Firefox",      NULL,       NULL,       1 << 1,       False,      -1 },
-	{ "Chromium",     NULL,       NULL,       1 << 1,       False,      -1 },
-	{ "Gimp",         NULL,       NULL,       1 << 2,       True,       -1 },
+	{ "ScudCloud",        NULL,       NULL,       1 << 1 | 1,       False,      0 },
+	{ "google-chrome",     NULL,       NULL,      1 << 1,       False,      0 },
+	{ "Thunderbird",     NULL,       NULL,        1 << 3,       False,      0 },
+	{ "gnome-terminal",     NULL,       NULL,     1,       False,      2 },
 };
 
 
@@ -61,10 +62,11 @@ static const Layout layouts[] = {
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "===",      bstackhoriz },
+	{ "HHH",      grid },
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -89,9 +91,10 @@ static const char *destroysession[]     = {"killall", "/bin/bash", NULL};
 static const char *keyboardlightup[] 	= {"sudo", "kbd_backlight", "up", NULL};
 static const char *keyboardlightdown[] 	= {"sudo", "kbd_backlight", "down", NULL};
 
-static const char *backlightup[] = {"xbacklight", "-inc", "10", NULL};
-static const char *backlightdown[] = {"xbacklight", "-dec", "10", NULL};
+static const char *backlightup[] = {"brightness", "inc", NULL};
+static const char *backlightdown[] = {"brightness", "dec", NULL};
 static const char *ejectcdrom[] = {"eject", NULL};
+static const char *lockscreen[] = {"dm-tool", "lock", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -117,11 +120,12 @@ static Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_u,      incnmaster,     {.i = -1 } },
+  { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockscreen} },
 
 	{ MODKEY,                       XK_minus,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_equal,      setmfact,       {.f = +0.05} },
 
-	{ MODKEY,                       XK_Tab,    view,           {0} },
+	{ MODKEY,                       XK_Tab,    focusmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 
 	{ MODKEY,                       XK_b,               setlayout,  {.v = &layouts[0]} }, /* TTT bstack */
@@ -129,6 +133,7 @@ static Key keys[] = {
 	{ 0,                            XF86XK_LaunchA,     setlayout,  {.v = &layouts[2]} }, /* NULL */ 
 	{ MODKEY,                       XK_m,               setlayout,  {.v = &layouts[3]} }, /* [M] monocle */
 	{ 0,                            XF86XK_LaunchB,     setlayout,  {.v = &layouts[4]} }, /* === bstackhorziz */
+	{ MODKEY,                       XK_g,               setlayout,  {.v = &layouts[5]} }, /* HHH grid */
 
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -144,6 +149,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
+	TAGKEYS(                        XK_4,                      3)
 };
 
 /* button definitions */
