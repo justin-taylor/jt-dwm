@@ -6,7 +6,6 @@
 
 #include <X11/XF86keysym.h>
 #include "bstack.c"
-#include "grid.c"
 #include "bstackhoriz.c"
 
 /* appearance */
@@ -33,7 +32,6 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "ScudCloud",        NULL,       NULL,       1 << 1 | 1,       False,      0 },
 	{ "google-chrome",     NULL,       NULL,      1 << 1,       False,      0 },
 	{ "Thunderbird",     NULL,       NULL,        1 << 3,       False,      0 },
 	{ "gnome-terminal",     NULL,       NULL,     1,       False,      2 },
@@ -62,7 +60,7 @@ static const Layout layouts[] = {
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
+	//{ "HHH",      grid },
 };
 
 /* key definitions */
@@ -80,21 +78,22 @@ static const Layout layouts[] = {
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 
-static const char *raisevolcmd[]        = {"amixer", "-q", "set", "Master", "5%+", NULL};
-static const char *lowervolcmd[]        = {"amixer", "-q", "set", "Master", "5%-", NULL};
-static const char *mutevolcmd[]         = {"amixer", "-q", "set", "Master", "toggle", NULL};
+static const char *raisevolcmd[]        = {"set_volume", "5%+", NULL};
+static const char *lowervolcmd[]        = {"set_volume", "5%-", NULL};
+static const char *mutevolcmd[]         = {"toggle_volume", NULL};
+
 static const char *mpdnext[]         	= {"piano", "skip", NULL};
 static const char *mpdprev[]         	= {"piano", "rate", "bad", NULL};
 static const char *mpdtoggle[]         	= {"piano", "playpause", NULL};
 static const char *destroysession[]     = {"killall", "/bin/bash", NULL};
 
-static const char *keyboardlightup[] 	= {"sudo", "kbd_backlight", "up", NULL};
-static const char *keyboardlightdown[] 	= {"sudo", "kbd_backlight", "down", NULL};
+static const char *keyboardlightup[] 	= {"kbd_backlight", "up", NULL};
+static const char *keyboardlightdown[] 	= {"kbd_backlight", "down", NULL};
 
 static const char *backlightup[] = {"brightness", "inc", NULL};
 static const char *backlightdown[] = {"brightness", "dec", NULL};
 static const char *ejectcdrom[] = {"eject", NULL};
-static const char *lockscreen[] = {"dm-tool", "lock", NULL};
+static const char *lockscreen[] = {"slock", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */

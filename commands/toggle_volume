@@ -1,0 +1,12 @@
+#!/bin/bash
+STATE=`amixer -c 1 get Master | egrep -o "[+[a-z]+]" | tail -1`
+NEW_STATE='off'
+if [ $STATE = "[off]" ]; then
+  NEW_STATE='on'
+fi
+
+amixer -q -c 1 set Master $NEW_STATE
+amixer -q -c 1 set Headphone $NEW_STATE
+amixer -q -c 1 set Speaker $NEW_STATE
+amixer -q -c 1 set "Bass Speaker" $NEW_STATE
+

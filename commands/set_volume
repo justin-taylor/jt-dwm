@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+  echo "Usage set_volume 5%+"
+  exit 1
+fi
+
+amixer  sset -q -c 1 Master $1
+PERCENT=`amixer get -c 1 Master | egrep -o "[0-9]+%" | head -1`
+
+amixer sset -q -c 1 Headphone $PERCENT
+amixer sset -q -c 1 Speaker $PERCENT
+amixer sset -q -c 1 "Bass Speaker" $PERCENT
+
